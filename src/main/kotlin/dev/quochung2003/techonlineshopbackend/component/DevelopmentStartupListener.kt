@@ -19,15 +19,10 @@ class DevelopmentStartupListener : ApplicationListener<ApplicationReadyEvent> {
         when {
             "win" in currentOs -> builder = ProcessBuilder(DevCommand.SWAGGER_WINDOWS_COMMAND.toProcessBuilderCommand())
             "mac" in currentOs -> builder = ProcessBuilder(DevCommand.SWAGGER_MACOS_COMMAND.toProcessBuilderCommand())
-            "nix" in currentOs || "nux" in currentOs -> builder = ProcessBuilder(DevCommand.SWAGGER_LINUX_COMMAND.toProcessBuilderCommand())
+            "nix" in currentOs || "nux" in currentOs -> builder =
+                ProcessBuilder(DevCommand.SWAGGER_LINUX_COMMAND.toProcessBuilderCommand())
         }
-
-        try {
-            builder.start()
-        } catch (e: IOException) {
-            Sentry.captureException(e)
-            throw Exception(e)
-        }
+        builder.start()
     }
 }
 

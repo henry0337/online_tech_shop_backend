@@ -40,3 +40,4 @@ out/
 
 ### Other ###
 credential.properties
+**/src/main/resources/data.json

@@ -1,12 +1,10 @@
 package dev.quochung2003.techonlineshopbackend.component
 
 import dev.quochung2003.techonlineshopbackend.util.toProcessBuilderCommand
-import io.sentry.Sentry
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.context.ApplicationListener
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
-import java.io.IOException
 
 @Component
 @Profile("prod")

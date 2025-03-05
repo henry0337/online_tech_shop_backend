@@ -4,17 +4,32 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
             http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--  runAlways="true"  -->
 
-    <changeSet id="create-uuid-ossp-extension" author="my_name" runOnChange="true" runAlways="true">
+    <changeSet id="drop-tables" author="Hưng" failOnError="false" >
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="users"/>
+            <tableExists tableName="banners"/>
+            <tableExists tableName="categories"/>
+            <tableExists tableName="products"/>
+        </preConditions>
+
+        <dropTable tableName="users" cascadeConstraints="true"/>
+        <dropTable tableName="banners" cascadeConstraints="true"/>
+        <dropTable tableName="categories" cascadeConstraints="true"/>
+        <dropTable tableName="products" cascadeConstraints="true"/>
+    </changeSet>
+
+    <changeSet id="create-uuid-ossp-extension" author="Hưng" runOnChange="true">
         <preConditions onFail="MARK_RAN">
             <dbms type="postgresql"/>
         </preConditions>
         <sql>CREATE EXTENSION IF NOT EXISTS "uuid-ossp";</sql>
     </changeSet>
 
-    <changeSet id="create-users-table" author="my_name">
+    <changeSet id="create-user-table" author="Hưng">
         <createTable tableName="users">
-            <column name="id" type="UUID" defaultValueComputed="uuid_generate_v4()">
+            <column name="id" type="SERIAL">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="display_name" type="VARCHAR(255)">
@@ -27,7 +42,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="avatar" type="VARCHAR(255)" defaultValue=""/>
-            <column name="role" type="TEXT[]">
+            <column name="roles" type="TEXT[]">
                 <constraints nullable="false"/>
             </column>
             <column name="enabled" type="BOOLEAN" defaultValueBoolean="true"/>
@@ -37,7 +52,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="create-banners-table" author="my_name">
+    <changeSet id="create-banners-table" author="Hưng">
         <createTable tableName="banners">
             <column name="id" type="SERIAL">
                 <constraints primaryKey="true"/>
@@ -48,7 +63,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="create-categories-table" author="my_name">
+    <changeSet id="create-categories-table" author="Hưng">
         <createTable tableName="categories">
             <column name="id" type="SERIAL">
                 <constraints primaryKey="true"/>
@@ -62,7 +77,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="create-products-table" author="my_name">
+    <changeSet id="create-products-table" author="Hưng">
         <createTable tableName="products">
             <column name="id" type="SERIAL">
                 <constraints primaryKey="true"/>

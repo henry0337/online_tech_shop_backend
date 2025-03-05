@@ -5,10 +5,10 @@ import org.springframework.data.relational.core.mapping.Table
 
 @Table("products")
 data class Product(
-    @Id var id: Int = 0,
+    @Id val id: Int? = null,
     val name: String,
     val categoryId: Int,
-    val type: List<String> = mutableListOf(),
+    val type: List<String>,
     val price: Float,
     val rating: Float,
     val pictureUrl: String,

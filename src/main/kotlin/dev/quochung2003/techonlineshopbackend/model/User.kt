@@ -1,8 +1,6 @@
 package dev.quochung2003.techonlineshopbackend.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import kotlinx.serialization.Contextual
-import kotlinx.serialization.Serializable
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
@@ -11,22 +9,21 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.util.*
 
-@Serializable
 @Table(name = "users")
 data class User(
-    @Id @Contextual val id: UUID = UUID.randomUUID(),
+    @Id var id: Int = 0,
     @Column("display_name") val name: String = "",
     val email: String = "",
     @JsonIgnore val credentialPassword: String = "",
-    val avatar: String = "",
-    val role: MutableSet<Role> = mutableSetOf(Role.USER),
+    val avatar: String? = "",
+    val roles: MutableSet<Role> = mutableSetOf(Role.USER),
     val enabled: Boolean = true,
     val isAccountExpired: Boolean = false,
     val isAccountLocked: Boolean = false,
     val isCredentialExpired: Boolean = false,
 ) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> =
-        role.map { SimpleGrantedAuthority(it.name) }.toMutableList()
+        roles.map { SimpleGrantedAuthority(it.name) }.toMutableList()
 
     override fun getPassword(): String = credentialPassword
     override fun getUsername(): String = email

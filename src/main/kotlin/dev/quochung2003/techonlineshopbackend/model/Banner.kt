@@ -5,6 +5,6 @@ import org.springframework.data.relational.core.mapping.Table
 
 @Table("banners")
 data class Banner(
-    @Id var id: Int = 0,
+    @Id val id: Int? = null,
     val url: String
 )

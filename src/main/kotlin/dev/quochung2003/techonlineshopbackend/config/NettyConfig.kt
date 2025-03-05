@@ -16,12 +16,10 @@ import java.io.File
 class NettyConfig {
 
     @Bean
-    fun nettyContainer() = WebServerFactoryCustomizer<NettyReactiveWebServerFactory> {
-        it.addServerCustomizers(object : NettyServerCustomizer {
-            override fun apply(server: HttpServer): HttpServer {
-                val sslContext = createSslContext()
-                return server.secure { sslContextSpec -> sslContextSpec.sslContext(sslContext)}
-            }
+    fun nettyContainer() = WebServerFactoryCustomizer<NettyReactiveWebServerFactory> { factory ->
+        factory.addServerCustomizers(NettyServerCustomizer { server ->
+            val sslContext = createSslContext()
+            return@NettyServerCustomizer server.secure { it.sslContext(sslContext) }
         })
     }
 

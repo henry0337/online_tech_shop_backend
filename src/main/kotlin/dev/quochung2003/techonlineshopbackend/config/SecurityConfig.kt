@@ -1,6 +1,7 @@
 package dev.quochung2003.techonlineshopbackend.config
 
 import dev.quochung2003.techonlineshopbackend.component.JwtFilter
+import dev.quochung2003.techonlineshopbackend.constant.Route
 import dev.quochung2003.techonlineshopbackend.model.Role
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -28,19 +29,20 @@ class SecurityConfig(
     fun securityWebFilterChain(serverHttpSecurity: ServerHttpSecurity): SecurityWebFilterChain {
         serverHttpSecurity
             .csrf { it.disable() }
-            .authorizeExchange { exchange ->
-                exchange.pathMatchers(
-                    "/api/v1/auth/**", "/swagger-ui/**",
+            .authorizeExchange {
+                it.pathMatchers(
+                    "${Route.AUTH_API}/**", "/swagger-ui/**",
                     "/v3/api-docs/**", "/api/shutdown",
-                    "/api/v1/user/**",
+                    "${Route.USER_API}/**", "${Route.BANNER_API}/**",
+                    "${Route.BANNER_API}/**", "${Route.PRODUCT_API}/**"
                 ).permitAll()
 
-                exchange.pathMatchers(
+                it.pathMatchers(
                     "/api/v1/auth/userInfo",
                     "/api/v1/auth/changePassword",
                 ).hasAnyRole(Role.USER.name, Role.ADMIN.name)
 
-                exchange.anyExchange().authenticated()
+                it.anyExchange().authenticated()
             }
             .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
             .authenticationManager(authenticationManager)
@@ -52,8 +54,8 @@ class SecurityConfig(
     @Bean
     fun encoder() = BCryptPasswordEncoder()
 
-    @Bean
     @Lazy
+    @Bean
     fun reactiveUserDetailsService(encoder: PasswordEncoder): ReactiveUserDetailsService {
         val user = User.withUsername("user")
             .password(encoder.encode("password"))

@@ -11,7 +11,7 @@ import org.springframework.web.reactive.config.WebFluxConfigurer
 class WebConfig {
 
     @Bean
-    fun cors() = object : WebFluxConfigurer {
+    fun enableCors() = object : WebFluxConfigurer {
         override fun addCorsMappings(registry: CorsRegistry) {
             super.addCorsMappings(registry)
 
@@ -19,7 +19,7 @@ class WebConfig {
                 .allowedOriginPatterns("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
-                .allowCredentials(true);
+                .allowCredentials(true)
         }
     }
 }

@@ -6,7 +6,7 @@
             http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <!-- Insert banners -->
-    <changeSet id="insert-banners" author="my_name">
+    <changeSet id="insert-banners" author="Hưng">
         <insert tableName="banners">
             <column name="url"
                     value="https://firebasestorage.googleapis.com/v0/b/project208-2.appspot.com/o/banner1.png?alt=media&amp;token=91f65188-3bff-4ad6-8b02-31c00aeb3ca6"/>
@@ -18,7 +18,7 @@
     </changeSet>
 
     <!-- Insert categories -->
-    <changeSet id="insert-categories" author="my_name">
+    <changeSet id="insert-categories" author="Hưng">
         <insert tableName="categories">
             <column name="id" value="0"/>
             <column name="title" value="Pc"/>
@@ -58,7 +58,7 @@
     </changeSet>
 
     <!-- Insert products -->
-    <changeSet id="insert-products" author="my_name">
+    <changeSet id="insert-products" author="Hưng">
         <insert tableName="products">
             <column name="name" value="Headphone 12A"/>
             <column name="category_id" value="2"/>

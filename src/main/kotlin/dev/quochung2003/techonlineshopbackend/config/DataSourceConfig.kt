@@ -9,7 +9,7 @@ import javax.sql.DataSource
 @Configuration
 class DataSourceConfig {
 
-    // Hàm này là bắt buộc do Liquibase cần JDBC để hoạt động
+    // Hàm này là bắt buộc do Liquibase cần JDBC để hoạt động, thêm vào đó, Spring Boot không có bản nhúng có sẵn của HikariCP.
     @Bean
     @Profile("dev")
     fun configDevelopmentDataSource(): DataSource =
@@ -19,7 +19,7 @@ class DataSourceConfig {
             password = "1"
         }
 
-    // Hàm này là bắt buộc do Liquibase cần JDBC để hoạt động
+    // Hàm này là bắt buộc do Liquibase cần JDBC để hoạt động, thêm vào đó, Spring Boot không có bản nhúng có sẵn của HikariCP.
     @Bean
     @Profile("prod")
     fun configProductionDataSource(): DataSource =

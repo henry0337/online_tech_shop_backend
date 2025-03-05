@@ -20,10 +20,16 @@ class AuthService(
     private val service: JwtService
 ) {
 
-    suspend fun register(request: RegisterRequest): User =
-        request.toUserResponse().let {
-            repository.save(it)
-        }
+    suspend fun register(request: RegisterRequest): User {
+        val newUser = User().copy(
+            name = request.name,
+            email = request.email,
+            credentialPassword = encoder.encode(request.password),
+            avatar = request.avatar
+        )
+
+        return repository.save(newUser)
+    }
 
 
     suspend fun login(request: LoginRequest): AuthResponse {
@@ -48,8 +54,7 @@ class AuthService(
 
         if (currentUser == null ||
             request.repeatPassword != request.newPassword ||
-            encoder.matches(request.newPassword, currentUser.credentialPassword) ||
-            request.oldPassword != currentUser.credentialPassword
+            encoder.matches(request.newPassword, currentUser.credentialPassword)
         ) return null
 
         repository.save(

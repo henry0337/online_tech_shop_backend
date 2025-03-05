@@ -5,7 +5,7 @@ import org.springframework.data.relational.core.mapping.Table
 
 @Table("categories")
 data class Category(
-    @Id var id: Int = 0,
+    @Id val id: Int? = null,
     val title: String,
     val pictureUrl: String
 )

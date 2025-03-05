@@ -19,7 +19,7 @@ class JwtService {
     fun generateToken(user: User): String {
         val claimCredential = mapOf(
             "id" to user.id,
-            "roles" to user.role,
+            "roles" to user.roles,
             "name" to user.name,
             "email" to user.email
         )
@@ -54,10 +54,10 @@ class JwtService {
         val currentClaims = extractAllClaims(token)
 
         return User().copy(
-            id = currentClaims["id"] as UUID,
+            id = currentClaims["id"] as Int,
             name = currentClaims["name"] as String,
             email = currentClaims["email"] as String,
-            role = currentClaims["roles"] as MutableSet<Role>
+            roles = currentClaims["roles"] as MutableSet<Role>
         )
     }
 
@@ -66,7 +66,6 @@ class JwtService {
         userDetails: UserDetails
     ): Boolean {
         val username = extractUsernameFromToken(token)
-
         return username == userDetails.username && !isTokenExpired(token)
     }
 
